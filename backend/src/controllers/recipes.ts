@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { dataRecipes } from "../data/recipesData";
-import { error } from "node:console";
 
 export function getAllRecipes(req: Request, res: Response) {
   res.send({data:dataRecipes})
