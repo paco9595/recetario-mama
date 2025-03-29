@@ -3,14 +3,14 @@ import { dataRecipes } from "../data/recipesData";
 import { sql } from "../sqlConnection";
 
 export async function getAllRecipes(req: Request, res: Response) {
-  const version = await sql`select version()`
-  res.send({data:dataRecipes, version})
+  const dataRecipes = await sql`select * from recipes`
+  res.send({data:dataRecipes})
 }
 
-export function getRecipe(req: Request, res: Response) {
+export async function getRecipe(req: Request, res: Response) {
   const id = req.params.id;
   console.log(id);
-  const recipe = dataRecipes.recipes.filter(recipes => recipes.id === id)[0];
+  const recipe = await sql`select * from recipes where id = ${id}`;
   res.send({data: recipe, error: undefined});
 }
 
