@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react"
-import { FieldError } from "react-hook-form"
+import { useRef, useState } from "react"
+import { FieldError, Merge } from "react-hook-form"
 
-export default function IncreaseList({ label, changeList, error, defaultValue }: { defaultValue: string[], label: string, error: (FieldError | undefined)[], changeList: (value: string) => void }) {
-  const inputRef = useRef<HTMLElement>(null);
-  const [state, setState] = useState<string[]>(defaultValue)
+export default function IncreaseList({ label, changeList, error, defaultValue }: { defaultValue: string[] | undefined, label: string, error: Merge<FieldError, (FieldError | undefined)[]> | undefined, changeList: (value: string | string[]) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [state, setState] = useState<string[]>(defaultValue || [])
   const [value, setValue] = useState('')
 
   const addHandler = (e: React.MouseEvent<HTMLElement>) => {

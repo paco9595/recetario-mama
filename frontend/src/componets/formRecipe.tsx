@@ -12,7 +12,7 @@ type Inputs  = {
 }
 
 interface FormRecipeProps {
-  defaultValues?: Recipe | null,
+  defaultValues: Recipe | null,
   onSubmit:(value: Recipe)=>void
 }
 
@@ -25,16 +25,17 @@ export default function FormRecipe({defaultValues, onSubmit}: FormRecipeProps) {
     setError,
     clearErrors,
     watch,
-    reset,
     formState: { errors },
-  } = useForm<Recipe>({ defaultValues })
-  const {title, description, ingredients, steps} = defaultValues;
+  } = useForm<Recipe>({ defaultValues : defaultValues || {} })
+  const {title, description, ingredients, steps} = defaultValues || {};
   const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     console.log(getValues('ingredients'))
     const subscription = watch((value, { name }) =>{
+      if(!name || !value) return;
       setSearchParams((prev) => {
+
         prev.set(name as string, value[name] as string);
         return prev;
       }, {replace: true});
@@ -66,9 +67,12 @@ export default function FormRecipe({defaultValues, onSubmit}: FormRecipeProps) {
     }
     onSubmit(data)
   }
+
+  const newRecipeHandler=()=>{}
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
       <div className="my-4">
+        {title}
         <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
         <input {...register("title", { required: true })} autoCorrect="false" type="text" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
         {errors.title && <span className="text-red-300">El titulo es requerido</span>}
@@ -89,7 +93,7 @@ export default function FormRecipe({defaultValues, onSubmit}: FormRecipeProps) {
         label={'Pasos'}
         error={errors.steps}
         defaultValue={steps}
-        changeList={(value: string) => changeListHandler('steps', value)}
+        changeList={(value: string | string[]) => changeListHandler('steps', value)}
       />
       <div className="my-4">
         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>

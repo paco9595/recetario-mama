@@ -1,8 +1,6 @@
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import IncreaseList from "../componets/increaseList"
 import { useNavigate, useSearchParams } from "react-router"
-import { useState } from "react"
-
 interface Inputs {
   title: string;
   description: string;
@@ -52,7 +50,7 @@ export default function NewRecipePage() {
     } else {
       clearErrors(['steps'])
     }
-    const { id, error } = await fetch(`http://localhost:8080/api/recipes/new`, {
+    const { id, error } = await fetch(`${import.meta.env.VITE_URL_BASE_ENDPOINT}/api/recipes/new`, {
       method: 'POST',
       body: JSON.stringify({
         title,
@@ -111,7 +109,7 @@ export default function NewRecipePage() {
           label={'Pasos'}
           error={errors.steps}
           defaultValue={steps}
-          changeList={(value: string) => changeListHandler('steps', value)}
+          changeList={(value: string | string[]) => changeListHandler('steps', value)}
         />
         <div className="my-4">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>

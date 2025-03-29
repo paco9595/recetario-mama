@@ -12,7 +12,8 @@ export default function useGetFetch<T extends Record<string, any>>(endpoint: str
   const [isLoading, setIsLoading] = useState<boolean>(false)
   
   const getData = async () => {
-    const {data, error: responseError}: Response<T>= await fetch(`https://recetario-mama-7ed2g492h-paco9595s-projects.vercel.app/api/${endpoint}`).then((res) => res.json());
+    console.log({test:import.meta.env.URL_BASE_ENDPOINT})
+    const {data, error: responseError}: Response<T>= await fetch(`${import.meta.env.VITE_URL_BASE_ENDPOINT}/api/${endpoint}`).then((res) => res.json());
     if (responseError) {
       return setError(responseError)
     }

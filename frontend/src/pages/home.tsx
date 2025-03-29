@@ -26,7 +26,7 @@ export default function HomePage() {
               <img src={recipe.url} alt="" />
             </div>
             <div>
-              {recipe.name}
+              {recipe.title}
               <p className='truncate'>
                 {recipe.description}
               </p>

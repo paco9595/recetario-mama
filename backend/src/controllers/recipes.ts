@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { dataRecipes } from "../data/recipesData";
+import { sql } from "../sqlConnection";
 
-export function getAllRecipes(req: Request, res: Response) {
-  res.send({data:dataRecipes})
+export async function getAllRecipes(req: Request, res: Response) {
+  const version = await sql`select version()`
+  res.send({data:dataRecipes, version})
 }
 
 export function getRecipe(req: Request, res: Response) {
