@@ -17,6 +17,7 @@ export async function getRecipe(req: Request, res: Response) {
 
 export async function createNewRecipe(req: Request, res: Response) {
   const {title,description, steps, ingredients} = req.body;
+  console.log(req.body)
   const returnData = await sql`INSERT INTO recipes (title, description, steps, ingredients)
   VALUES (
       ${title},
