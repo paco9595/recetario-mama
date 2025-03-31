@@ -26,5 +26,6 @@ export async function createNewRecipe(req: Request, res: Response) {
       ${ingredients}
   );`
   console.log(returnData)
+  res.send({ data: returnData, error:null });
 }
 
