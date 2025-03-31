@@ -23,7 +23,7 @@ export async function createNewRecipe(req: Request, res: Response) {
       ${title},
       ${description},
       ${steps},
-      ${ingredients}
+      ${ingredients},
       ${user_id}
   );`
   console.log(returnData)
