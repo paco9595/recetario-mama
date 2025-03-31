@@ -28,6 +28,6 @@ export async function createNewRecipe(req: Request, res: Response) {
   )
   RETURNING id;`
   console.log(returnData)
-  res.send({ id: returnData, error:null });
+  res.send({ id: returnData[0].id, error:null });
 }
 
