@@ -3,7 +3,7 @@ import { sql } from "../sqlConnection";
 
 export async function getAllRecipes(req: Request, res: Response) {
   const { userId } = req.params
-  const dataRecipes = await sql`select id, title, 'description', tag, image_url from recipes where user_id = ${userId} `
+  const dataRecipes = await sql`SELECT id, title, description, tag, image_url FROM recipes WHERE user_id = ${userId}`
   res.send({ data: dataRecipes })
 }
 
