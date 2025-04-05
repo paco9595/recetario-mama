@@ -5,6 +5,7 @@ import { Recipe } from "../types/recipie";
 
 // Obtener todas las recetas de un usuario
 export async function getAllRecipes(req: Request, res: Response, next: NextFunction) {
+  console.log(req.params)
   const validatedData = getAllRecipeSchema.parse(req.params)
   const { userId } = validatedData;
   try {

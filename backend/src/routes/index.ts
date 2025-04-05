@@ -14,7 +14,7 @@ app.use(express.json())
 
 
 app.use('/api/auth', authRouter)
-app.use('/api/recipes', recipesRouter)
+app.use('/api/recipes/:userId', recipesRouter)
 app.use('/api/static', express.static(path.join(__dirname, 'public')))
 
 app.use(errorHandler)
