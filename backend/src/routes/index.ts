@@ -4,7 +4,6 @@ import path from 'node:path'
 
 import authRouter from './auth'
 import recipesRouter from './recipes';
-import { errorHandler } from '../middleware/errorHandler';
 
 
 const app = express()
@@ -17,6 +16,5 @@ app.use('/api/auth', authRouter)
 app.use('/api/recipes', recipesRouter)
 app.use('/api/static', express.static(path.join(__dirname, 'public')))
 
-app.use(errorHandler)
 
 export default app
