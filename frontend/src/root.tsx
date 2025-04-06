@@ -8,15 +8,15 @@ import {
 } from "react-router";
 import { rootAuthLoader } from "@clerk/react-router/ssr.server";
 import { ClerkProvider, SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/react-router";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 
-import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 
-export async function loader(args: Route.LoaderArgs) {
+export async function loader(args: LoaderFunctionArgs) {
   return rootAuthLoader(args)
 }
 
-export const links: Route.LinksFunction = () => [
+export const links = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -48,7 +48,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App({ loaderData }: Route.ComponentProps) {
+type AppProps = {
+  loaderData: Awaited<ReturnType<typeof rootAuthLoader>>;
+};
+
+export default function App({ loaderData }: AppProps) {
   return (
     <ClerkProvider loaderData={loaderData}>
       <header className="flex items-center justify-center py-8 px-4">
@@ -66,7 +70,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
   );
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary({ error }: { error: unknown }) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;

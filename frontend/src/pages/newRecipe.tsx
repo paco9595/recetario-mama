@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form"
 import IncreaseList from "../componets/increaseList"
 import { useNavigate, useSearchParams } from "react-router"
-import { useAuth, useUser } from "@clerk/clerk-react";
-import { FormEvent } from "react";
+import { useAuth } from "@clerk/clerk-react";
 interface Inputs {
   title: string;
   description: string;
@@ -19,7 +18,6 @@ export default function NewRecipePage() {
   const description = searchParams.get("description") || "";
   const ingredients = searchParams.get("ingredients")?.split(',') || [];
   const steps = searchParams.get("steps")?.split(',') || [];
-  const { user } = useUser()
   const {
     register,
     setError,
@@ -85,9 +83,8 @@ export default function NewRecipePage() {
   }
 
 
-  const changeListHandler = (property: keyof Inputs, value: any) => {
+  const changeListHandler = (property: keyof Inputs, value: string | string[]) => {
     const currentValue = getValues(property);
-    console.log({property,value})
     const list = Array.isArray(currentValue) ? currentValue : [];
     if (Array.isArray(value)) {
       setValue(property, [...list, ...value], { shouldValidate: true });
@@ -95,8 +92,8 @@ export default function NewRecipePage() {
       setValue(property, [...list, value], { shouldValidate: true });
     }
   }
-  const fileHandler = (e)=> {
-    setValue('file', e.target.files[0])
+  const fileHandler = (e: React.ChangeEvent<HTMLInputElement>)=> {
+    setValue('file', e.target.files?.[0])
   }
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 my-10">

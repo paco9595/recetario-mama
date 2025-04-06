@@ -6,7 +6,7 @@ import { useUser } from '@clerk/clerk-react';
 import getImageURL from '../utils/getImageURL';
 
 export default function HomePage() {
-  const { isSignedIn, user, isLoaded } = useUser()
+  const { isSignedIn, isLoaded } = useUser()
   const navigate = useNavigate();
   useEffect(()=> {
     if(isLoaded && !isSignedIn) {

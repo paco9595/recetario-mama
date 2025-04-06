@@ -14,7 +14,7 @@ export default function useGetFetch<T extends Record<string, any>>(endpoint: str
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const getData = async (id?: string) => {
+  const getData = async () => {
     const token = await getToken()
     const test: Response<T> = await fetch(`${import.meta.env.VITE_URL_BASE_ENDPOINT}/api/${endpoint}`, {
       method: 'GET',

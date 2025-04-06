@@ -1,7 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import IncreaseList from "./increaseList"
-import { useSearchParams } from "react-router"
-import { useEffect } from "react"
 import { Recipe } from "../types/recipe"
 
 type Inputs  = {
@@ -24,41 +22,30 @@ export default function FormRecipe({defaultValues, onSubmit}: FormRecipeProps) {
     getValues,
     setError,
     clearErrors,
-    watch,
     formState: { errors },
   } = useForm<Recipe>({ defaultValues : defaultValues || {} })
   const {title, description, ingredients, steps} = defaultValues || {};
-  const [, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const subscription = watch((value, { name }) =>{
-      if(!name || !value) return;
-      setSearchParams((prev) => {
 
-        prev.set(name as string, value[name] as string);
-        return prev;
-      }, {replace: true});
-  
-    })
-    return () => subscription.unsubscribe()
-  }, [watch])
 
   const changeListHandler = (property: keyof Inputs, value: string | string[]) => {
-    if(Array.isArray(value)) {
-      setValue(property, [...getValues(property), ...value], { shouldValidate: true});
+    const currentValue = getValues(property);
+    const list = Array.isArray(currentValue) ? currentValue : [];
+    if (Array.isArray(value)) {
+      setValue(property, [...list, ...value], { shouldValidate: true });
     } else {
-      setValue(property, [...getValues(property), value], { shouldValidate: true});
+      setValue(property, [...list, value], { shouldValidate: true });
     }
   }
 
   const onSubmitHandler: SubmitHandler<Recipe>= (data)=> {
-    if(data.ingredients.length === 0) {
+    if(data?.ingredients?.length === 0) {
       setError('ingredients', {message: 'al menos tiene que tener un ingrediente'})
       return
     } else {
       clearErrors(['ingredients'])
     }
-    if(data.steps.length === 0) {
+    if(data?.steps?.length === 0) {
       setError('steps', {message: 'al menos tiene que tener un paso'})
       return
     }else {
