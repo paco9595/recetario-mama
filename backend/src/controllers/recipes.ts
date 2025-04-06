@@ -22,12 +22,13 @@ export async function getAllRecipes(req: Request, res: Response, next: NextFunct
 // Obtener una receta específica por ID y usuario
 export async function getRecipe(req: Request, res: Response, next: NextFunction) {
   try {
-    const validatedData = getRecipeSchema.parse(req.query)
+    const validatedData = getRecipeSchema.parse(req.params)
     const { id } = validatedData;
     const { userId } = getAuth(req);
     const recipe: Recipe[] = await getRecipeByIdService(id, userId|| '');
     if (recipe.length === 0) {
       res.status(404).json({ error: "Receta no encontrada." });
+      return;
     }
     res.status(200).json({
       success: true,
