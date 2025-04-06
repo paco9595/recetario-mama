@@ -47,12 +47,13 @@ export async function createNewRecipe(req: Request, res: Response, next: NextFun
   try {
     console.log(req.body)
     const validatedData = createRecipeSchema.parse(req.body);
-    const { file }: any = req.files
     const { userId } = getAuth(req);
-    console.log(file)
-    const data = await uploadImageService(file)   
-    console.log(JSON.stringify(data))
-    const result = await createRecipeService({ ...validatedData, steps: validatedData.steps?.split(','), ingredients: validatedData.ingredients?.split(','), userId, image_url: data })
+    let supabaseImageURL;
+    if(req.files) {
+      const { file }: any = req.files
+      supabaseImageURL = await uploadImageService(file)   
+    }
+    const result = await createRecipeService({ ...validatedData, steps: validatedData.steps?.split(','), ingredients: validatedData.ingredients?.split(','), userId, image_url: supabaseImageURL })
     res.status(201).json({
       success: true,
       data: { id: result[0].id },

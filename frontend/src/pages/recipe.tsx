@@ -9,7 +9,7 @@ export default function RecipePage() {
 
   const { data, isLoading } = useGetFetch<Recipe>(`recipes/${id}`)
 
-  if(!data && !isLoading) {
+  if (!data && !isLoading) {
     return <div>No se encontro receta</div>
   }
 
@@ -24,7 +24,7 @@ export default function RecipePage() {
       <h2 className="text-7xl text-center my-10">{data?.title}</h2>
       <div className="mb-8">
         <ul className="flex">
-          {data?.tag?.map((tag, index)=>(
+          {data?.tag?.map((tag, index) => (
             <li key={`tag-${index}`} className="mx-3 first:ml-0">#{tag}</li>
           ))}
         </ul>
@@ -45,13 +45,19 @@ export default function RecipePage() {
         <p>{data?.notes}</p>
       </div>}
       <div className="my-8">
-      <p className="text-xl">Pasos</p>
-      <ul className="pl-8 list-decimal pt-3">
-        {data?.steps?.map((step, index) => (
-          <li key={`step-${index}`} className="py-2">{step}</li>
-        ))}
-      </ul>
-        </div>
+        <p className="text-xl">Pasos</p>
+        <ul className="pl-8 list-decimal pt-3">
+          {data?.steps?.map((step, index) => (
+            <li key={`step-${index}`} className="py-2">{step}</li>
+          ))}
+        </ul>
+      </div>
+      <div className="my-8">
+        <p className="text-xl">Notas</p>
+        <p>
+          {data?.description}
+        </p>
+      </div>
     </div>
   )
 }
