@@ -11,7 +11,7 @@ export async function getAllRecipes(req: Request, res: Response, next: NextFunct
     const recipes: Recipe[] = await getAllRecipesService(userId)
     res.status(200).json({
       success: true,
-      data: { id: recipes },
+      data: recipes,
       error: null,
     });
   } catch (error) {
