@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form"
 import IncreaseList from "../componets/increaseList"
 import { useNavigate, useSearchParams } from "react-router"
 import { useAuth } from "@clerk/clerk-react";
+import imageCompression from "browser-image-compression";
+import { useState } from "react";
 interface Inputs {
   title: string;
   description: string;
@@ -19,6 +21,7 @@ export default function NewRecipePage() {
   const description = searchParams.get("description") || "";
   const ingredients = searchParams.get("ingredients")?.split(',') || [];
   const steps = searchParams.get("steps")?.split(',') || [];
+  const [previewImage, setPreviewImage] = useState<string>('');
   const {
     register,
     setError,
@@ -93,8 +96,15 @@ export default function NewRecipePage() {
       setValue(property, [...list, value], { shouldValidate: true });
     }
   }
-  const fileHandler = (e: React.ChangeEvent<HTMLInputElement>)=> {
-    setValue('file', e.target.files?.[0])
+  const fileHandler = async(e: React.ChangeEvent<HTMLInputElement>)=> {
+    const image = e.target.files?.[0] 
+    if(!image) return;
+    setPreviewImage(URL.createObjectURL(image))
+    const compressedFile = await imageCompression(image, {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1024
+    })
+    setValue('file', compressedFile)
   }
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 my-10">
@@ -133,6 +143,7 @@ export default function NewRecipePage() {
           {errors.description && <span className="text-red-300">descripcion requerida</span>}
         </div>
         <div className="my-4">
+          {previewImage && <img src={previewImage} alt="" />}
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>
           <input
             id="file_input"

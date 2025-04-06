@@ -8,7 +8,7 @@ export default async function uploadImageService(file: any) {
   const newImageName = 'images/' + date + file.name;
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-  const { data, error } = await supabase.storage.from('recetario').upload(newImageName, file.data, {
+  const { error } = await supabase.storage.from('recetario').upload(newImageName, file.data, {
     contentType: file.mimetype,
     cacheControl: '3600',
     upsert: false,

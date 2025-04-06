@@ -45,7 +45,6 @@ export async function getRecipe(req: Request, res: Response, next: NextFunction)
 // Crear una nueva receta
 export async function createNewRecipe(req: Request, res: Response, next: NextFunction) {
   try {
-    console.log(req.body)
     const validatedData = createRecipeSchema.parse(req.body);
     const { userId } = getAuth(req);
     let supabaseImageURL;
