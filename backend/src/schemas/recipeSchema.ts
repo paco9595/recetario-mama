@@ -1,12 +1,16 @@
 // schemas/recipeSchema.ts
 import { z } from "zod";
 
-export const createRecipeSchema = z.object({
+const createRecipeSchemaRequired = z.object({
   title: z.string().min(1, "El título es requerido"),
   description: z.string().min(1, "La descripción es requerida"),
-  steps: z.string().array().min(1, "Los pasos son requeridos"),
-  ingredients: z.string().array().min(1, "Los ingredientes son requeridos"),
-}).required();
+  steps: z.string().min(1, "Los pasos son requeridos"),
+  ingredients: z.string().min(1, "Los ingredientes son requeridos"),
+})
+
+export const createRecipeSchema = createRecipeSchemaRequired.extend({
+  image: z.any().optional(),
+}).partial()
 
 export const getRecipeSchema = z.object({
   id: z.string(),

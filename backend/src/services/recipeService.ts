@@ -16,9 +16,9 @@ export async function getRecipeByIdService(id:string, userId: string): Promise<R
 }
 
 export async function createRecipeService(recipe: Recipe): Promise<{id: string}[]> {
-  const {title, description, steps, ingredients, userId} = recipe
+  const {title, description, steps, ingredients, userId, image_url} = recipe
   return await sql`
-  INSERT INTO recipes (title, description, steps, ingredients, user_id)
-  VALUES (${title}, ${description}, ${steps}, ${ingredients}, ${userId})
+  INSERT INTO recipes (title, description, steps, ingredients, user_id, image_url)
+  VALUES (${title}, ${description}, ${steps}, ${ingredients}, ${userId}, ${image_url})
   RETURNING id`;
 }

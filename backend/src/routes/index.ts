@@ -12,10 +12,10 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.use(clerkMiddleware())
+app.use('/api/static/images', express.static(path.join(__dirname,'..','..', 'static')))
 
+app.use(clerkMiddleware())
 app.use('/api/recipes',requireAuth(), recipesRouter)
-app.use('/api/static', express.static(path.join(__dirname, 'public')))
 
 //app.use(errorHandler)
 
