@@ -32,7 +32,7 @@ export async function getRecipe(req: Request, res: Response, next: NextFunction)
     }
     res.status(200).json({
       success: true,
-      data: { id: recipe[0] },
+      data: recipe[0],
       error: null,
     });
   } catch (error) {
