@@ -44,7 +44,8 @@ export async function getRecipe(req: Request, res: Response, next: NextFunction)
 export async function createNewRecipe(req: Request, res: Response, next: NextFunction) {
   try {
     const validatedData = createRecipeSchema.parse(req.body);
-    const result = await createRecipeService(validatedData)
+    const { userId } = getAuth(req);
+    const result = await createRecipeService({...validatedData, userId})
     res.status(201).json({
       success: true,
       data: { id: result[0].id },
