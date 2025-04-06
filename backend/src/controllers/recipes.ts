@@ -3,7 +3,7 @@ import { createRecipeSchema, getRecipeSchema } from "../schemas/recipeSchema";
 import { createRecipeService, getAllRecipesService, getRecipeByIdService } from "../services/recipeService";
 import { Recipe } from "../types/recipie";
 import { getAuth } from "@clerk/express";
-import path from 'node:path'
+import uploadImageService from "../services/uploadImageService";
 
 // Obtener todas las recetas de un usuario
 export async function getAllRecipes(req: Request, res: Response, next: NextFunction) {
@@ -49,20 +49,15 @@ export async function createNewRecipe(req: Request, res: Response, next: NextFun
     const validatedData = createRecipeSchema.parse(req.body);
     const { file }: any = req.files
     const { userId } = getAuth(req);
-    const date = new Date().toISOString().replace(/:/g, '-');
-    const directoryPath = path.join(__dirname, '..', '..', 'static');
-    const newImageName = date + file.name;
-    const filePath = path.join(directoryPath, newImageName);
-    console.log(filePath, newImageName);
-    file.mv(filePath, async (err: any, image: any) => {
-      if (err) return res.status(500).json({ messages: err.message })
-      const result = await createRecipeService({ ...validatedData, steps: validatedData.steps?.split(','), ingredients: validatedData.ingredients?.split(','), userId, image_url: newImageName })
-      res.status(201).json({
-        success: true,
-        data: { id: result[0].id },
-        error: null,
-      });
-    })
+    console.log(file)
+    const data = await uploadImageService(file)   
+    console.log(JSON.stringify(data))
+    const result = await createRecipeService({ ...validatedData, steps: validatedData.steps?.split(','), ingredients: validatedData.ingredients?.split(','), userId, image_url: data })
+    res.status(201).json({
+      success: true,
+      data: { id: result[0].id },
+      error: null,
+    });
   } catch (error) {
     next(error);
   }
