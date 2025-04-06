@@ -1,21 +1,25 @@
 import { useForm } from "react-hook-form"
 import IncreaseList from "../componets/increaseList"
 import { useNavigate, useSearchParams } from "react-router"
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { FormEvent } from "react";
 interface Inputs {
   title: string;
   description: string;
   ingredients: string | string[];
   steps: string | string[];
+  file?: File
 
 }
 
 export default function NewRecipePage() {
+  const { getToken } = useAuth()
   const [searchParams] = useSearchParams();
   const title = searchParams.get("title") || "";
   const description = searchParams.get("description") || "";
   const ingredients = searchParams.get("ingredients")?.split(',') || [];
   const steps = searchParams.get("steps")?.split(',') || [];
-
+  const { user } = useUser()
   const {
     register,
     setError,
@@ -36,8 +40,13 @@ export default function NewRecipePage() {
 
   const newRecipeHandler = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
-    const { ingredients, steps, title, description } = getValues()
-    console.log({ ingredients, steps, title, description });
+    const token = await getToken()
+    const data = getValues()
+    const { ingredients, steps } = data
+    const fd = new FormData();
+
+
+
     if (ingredients.length === 0) {
       setError('ingredients', { message: 'al menos tiene que tener un ingrediente' })
       return
@@ -50,37 +59,45 @@ export default function NewRecipePage() {
     } else {
       clearErrors(['steps'])
     }
-    const { id, error } = await fetch(`${import.meta.env.VITE_URL_BASE_ENDPOINT}/api/recipes/new`, {
+
+    Object.keys(data).forEach(key => {
+      const value = data[key as keyof Inputs];
+      if (key === 'file' && value && value instanceof File) {
+        fd.append('file', value, value.name)
+      } else if (value) {
+        fd.append(key, value as string)
+      }
+    })
+
+    const { data: { id }, error } = await fetch(`${import.meta.env.VITE_URL_BASE_ENDPOINT}/api/recipes/new`, {
       method: 'POST',
-      body: JSON.stringify({
-        title,
-        description,
-        steps,
-        ingredients
-      })
-    }).then(async (res) => { 
+      headers: {
+        authorization: `Bearer ${token}`
+      },
+      body: fd
+    }).then(async (res) => {
       const data = await res.json();
-      console.log(data); 
-      return data; 
+      return data;
     })
     if (!error) {
-      // console.log({ id })
       navigate(`/recipe/${id}`)
     }
-    // console.log(id, error)
-
   }
 
-  const changeListHandler = (property: keyof Inputs, value: string | string[]) => {
 
-    console.log({ getValue: getValues(property), value, property })
+  const changeListHandler = (property: keyof Inputs, value: any) => {
+    const currentValue = getValues(property);
+    console.log({property,value})
+    const list = Array.isArray(currentValue) ? currentValue : [];
     if (Array.isArray(value)) {
-      setValue(property, [...getValues(property), ...value], { shouldValidate: true });
+      setValue(property, [...list, ...value], { shouldValidate: true });
     } else {
-      setValue(property, [...getValues(property), value], { shouldValidate: true });
+      setValue(property, [...list, value], { shouldValidate: true });
     }
   }
-
+  const fileHandler = (e)=> {
+    setValue('file', e.target.files[0])
+  }
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 my-10">
       <div onClick={() => navigate('/')}>
@@ -113,7 +130,12 @@ export default function NewRecipePage() {
         />
         <div className="my-4">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>
-          <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
+          <input
+            id="file_input"
+            type="file"
+            onChange={fileHandler}
+            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          />
         </div>
         <button onClick={newRecipeHandler} >Crear</button>
       </form>

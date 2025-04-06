@@ -7,22 +7,26 @@ type Response<T extends Record<string, any>> = {
 
 
 
-export default function useGetFetch<T extends Record<string, any>>(endpoint: string) {
+export default function usePostFetch<T extends Record<string, any>>(endpoint: string) {
   const { getToken } = useAuth()
   const { isLoaded } = useUser()
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const getData = async (id?: string) => {
+  const getData = async () => {
     const token = await getToken()
+
     const test: Response<T> = await fetch(`${import.meta.env.VITE_URL_BASE_ENDPOINT}/api/${endpoint}`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
+        "Content-Type": "application/json",
         authorization: `Bearer ${token}`
       }
     }).then((res) => res.json());
+
     const { data: dataResponse, error: responseError } = test
+
     if (responseError) {
       return setError(responseError)
     }
@@ -44,5 +48,5 @@ export default function useGetFetch<T extends Record<string, any>>(endpoint: str
     }
   }, [isLoaded])
 
-  return { data, error, isLoading, getData }
+  return { data, error, isLoading }
 }

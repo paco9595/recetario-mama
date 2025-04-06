@@ -25,6 +25,7 @@ export default function IncreaseList({ label, changeList, error, defaultValue }:
     if (e.key === 'Enter' && value !== '') {
       setState((old: string[]) => [...old, value])
       setValue('')
+      changeList(value)
     }
   }
 

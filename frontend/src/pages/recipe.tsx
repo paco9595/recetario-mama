@@ -1,12 +1,17 @@
 import { useNavigate, useParams } from "react-router"
 import useGetFetch from "../hooks/useGetFetch"
 import { Recipe } from "../types/recipe"
+import getImageURL from "../utils/getImageURL";
 
 export default function RecipePage() {
   const { id } = useParams()
   const navigate = useNavigate();
-  const { data } = useGetFetch<Recipe>(`recipes/${id}`)
 
+  const { data, isLoading } = useGetFetch<Recipe>(`recipes/${id}`)
+
+  if(!data && !isLoading) {
+    return <div>No se encontro receta</div>
+  }
 
   return (
     <div className="max-w-2xl mx-auto my-10 px-4">
@@ -14,12 +19,12 @@ export default function RecipePage() {
         Atras
       </div>
       <div className="flex justify-center">
-        <img src={data?.url} alt="" />
+        <img src={getImageURL(data?.image_url)} alt="" />
       </div>
       <h2 className="text-7xl text-center my-10">{data?.title}</h2>
       <div className="mb-8">
         <ul className="flex">
-          {data?.tags.map((tag, index)=>(
+          {data?.tag?.map((tag, index)=>(
             <li key={`tag-${index}`} className="mx-3 first:ml-0">#{tag}</li>
           ))}
         </ul>
@@ -47,7 +52,6 @@ export default function RecipePage() {
         ))}
       </ul>
         </div>
-      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     </div>
   )
 }

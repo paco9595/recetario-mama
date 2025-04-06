@@ -31,7 +31,6 @@ export default function FormRecipe({defaultValues, onSubmit}: FormRecipeProps) {
   const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    console.log(getValues('ingredients'))
     const subscription = watch((value, { name }) =>{
       if(!name || !value) return;
       setSearchParams((prev) => {
