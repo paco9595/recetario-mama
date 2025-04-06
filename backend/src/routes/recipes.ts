@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', getAllRecipes);
 
-router.get('/:userId/:id', getRecipe)
-router.post('/:userId/new', createNewRecipe)
+router.get('/:id', getRecipe)
+router.post('/new', createNewRecipe)
 
 export default router

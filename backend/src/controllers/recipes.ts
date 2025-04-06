@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import { createRecipeSchema, getAllRecipeSchema, getRecipeSchema } from "../schemas/recipeSchema";
+import { createRecipeSchema, getRecipeSchema } from "../schemas/recipeSchema";
 import { createRecipeService, getAllRecipesService, getRecipeByIdService } from "../services/recipeService";
 import { Recipe } from "../types/recipie";
+import { getAuth } from "@clerk/express";
 
 // Obtener todas las recetas de un usuario
 export async function getAllRecipes(req: Request, res: Response, next: NextFunction) {
-  const validatedData = getAllRecipeSchema.parse(req.query)
-  const { userId } = validatedData;
   try {
-    const recipes: Recipe[] = await getAllRecipesService(userId)
+    const { userId } = getAuth(req);
+    const recipes: Recipe[] = await getAllRecipesService(userId || '')
     res.status(200).json({
       success: true,
       data: recipes,
@@ -21,16 +21,17 @@ export async function getAllRecipes(req: Request, res: Response, next: NextFunct
 
 // Obtener una receta específica por ID y usuario
 export async function getRecipe(req: Request, res: Response, next: NextFunction) {
-  const validatedData = getRecipeSchema.parse(req.query)
-  const { id, userId } = validatedData;
   try {
-    const recipe: Recipe[] = await getRecipeByIdService(id, userId);
+    const validatedData = getRecipeSchema.parse(req.query)
+    const { id } = validatedData;
+    const { userId } = getAuth(req);
+    const recipe: Recipe[] = await getRecipeByIdService(id, userId|| '');
     if (recipe.length === 0) {
       res.status(404).json({ error: "Receta no encontrada." });
     }
     res.status(200).json({
       success: true,
-      data: { id: recipe[0]},
+      data: { id: recipe[0] },
       error: null,
     });
   } catch (error) {
@@ -40,8 +41,8 @@ export async function getRecipe(req: Request, res: Response, next: NextFunction)
 
 // Crear una nueva receta
 export async function createNewRecipe(req: Request, res: Response, next: NextFunction) {
-  const validatedData = createRecipeSchema.parse(req.body);
   try {
+    const validatedData = createRecipeSchema.parse(req.body);
     const result = await createRecipeService(validatedData)
     res.status(201).json({
       success: true,
