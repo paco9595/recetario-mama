@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
+
+import 'dotenv/config'
+
 import app from './routes'
 import cors from 'cors'
-
-dotenv.config();
 
 app.use(cors())
 

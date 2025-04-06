@@ -5,8 +5,7 @@ import { Recipe } from "../types/recipie";
 
 // Obtener todas las recetas de un usuario
 export async function getAllRecipes(req: Request, res: Response, next: NextFunction) {
-  console.log(req.params)
-  const validatedData = getAllRecipeSchema.parse(req.params)
+  const validatedData = getAllRecipeSchema.parse(req.query)
   const { userId } = validatedData;
   try {
     const recipes: Recipe[] = await getAllRecipesService(userId)
@@ -22,7 +21,7 @@ export async function getAllRecipes(req: Request, res: Response, next: NextFunct
 
 // Obtener una receta específica por ID y usuario
 export async function getRecipe(req: Request, res: Response, next: NextFunction) {
-  const validatedData = getRecipeSchema.parse(req.params)
+  const validatedData = getRecipeSchema.parse(req.query)
   const { id, userId } = validatedData;
   try {
     const recipe: Recipe[] = await getRecipeByIdService(id, userId);
