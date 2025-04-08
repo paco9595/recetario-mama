@@ -14,7 +14,7 @@ export default function HomePage() {
     }
   },[isLoaded, isSignedIn])
   const {data } = useGetFetch<Recipe[]>('recipes')
-
+  console.log(data)
   return (
     <div className='max-w-5xl mx-auto px-4 md:px-6 my-10'>
       <div className='mb-10'>

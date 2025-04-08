@@ -2,17 +2,15 @@ import { useNavigate, useParams } from "react-router"
 import useGetFetch from "../hooks/useGetFetch"
 import { Recipe } from "../types/recipe"
 import getImageURL from "../utils/getImageURL";
+import { useEffect } from "react";
 
 export default function RecipePage() {
   const { id } = useParams()
   const navigate = useNavigate();
+  const { data } = useGetFetch<Recipe>(`recipes/${id}`)
 
-  const { data, isLoading } = useGetFetch<Recipe>(`recipes/${id}`)
-
-  if (!data && !isLoading) {
-    return <div>No se encontro receta</div>
-  }
-
+  console.log(data,id)
+  
   return (
     <div className="max-w-2xl mx-auto my-10 px-4">
       <div className="my-4" onClick={() => navigate('/')}>

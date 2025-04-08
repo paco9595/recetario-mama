@@ -14,11 +14,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #fefbf5;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   a:hover {
     color: #747bff;
@@ -26,4 +28,13 @@
   button {
     background-color: #f9f9f9;
   }
+}
+.cormorant-garamond-Header {
+  font-family: "Cormorant Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 46px;
+}
+.lato-regular {
 }
