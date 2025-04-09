@@ -3,7 +3,6 @@ import useGetFetch from './../hooks/useGetFetch'
 import { useNavigate } from 'react-router';
 import { Recipe } from './../types/recipe';
 import { useUser } from '@clerk/clerk-react';
-import getImageURL from '../utils/getImageURL';
 import FlipCard from '../componets/flipCard/flipCard';
 
 export default function HomePage() {
