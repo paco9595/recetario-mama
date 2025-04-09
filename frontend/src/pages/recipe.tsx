@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router"
 import useGetFetch from "../hooks/useGetFetch"
 import { Recipe } from "../types/recipe"
 import getImageURL from "../utils/getImageURL";
-import { useEffect } from "react";
 
 export default function RecipePage() {
   const { id } = useParams()
@@ -13,7 +12,7 @@ export default function RecipePage() {
   
   return (
     <div className="max-w-2xl mx-auto my-10 px-4">
-      <div className="my-4" onClick={() => navigate('/')}>
+      <div className="my-4" onClick={() => navigate(-1)}>
         Atras
       </div>
       <div className="flex justify-center">

@@ -1,0 +1,79 @@
+.recipe-card {
+  background-color: #ffffff; /* Fondo blanco para las tarjetas */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  overflow: hidden; /* Asegura que la imagen y el contenido se mantengan dentro de los bordes */
+  margin-bottom: 20px; /* Espacio entre las tarjetas */
+  display: flex; /* Para organizar los elementos internos (imagen y texto) */
+  flex-direction: column; /* Apila los elementos verticalmente por defecto */
+  width: 100%; /* Ancho para 3 columnas con espacio entre ellas */
+  min-width: 150px; /* Ancho mínimo para evitar que se compriman demasiado */
+}
+
+/* Estilos para la imagen de la receta */
+.recipe-card__image-container {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Relación de aspecto común para imágenes */
+  overflow: hidden; /* Recorta la imagen si excede el contenedor */
+}
+
+.recipe-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Escala la imagen manteniendo su relación de aspecto y cubriendo el contenedor */
+  display: block; /* Evita espacios extra debajo de la imagen */
+}
+
+/* Estilos para el contenido de la receta (título, info, botones) */
+.recipe-card__content {
+  padding: 15px;
+}
+
+.recipe-card__title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333; /* Color de texto principal */
+}
+
+.recipe-card__info {
+  color: #777;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.recipe-card__actions {
+  display: flex;
+  gap: 10px; /* Espacio entre los botones */
+}
+
+.recipe-card__button {
+  background-color: #007bff; /* Color de fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
+}
+
+.recipe-card__button:hover {
+  background-color: #0056b3;
+}
+
+.recipe-card__button--secondary {
+  background-color: #6c757d; /* Un color diferente para el botón secundario (eliminar) */
+}
+
+.recipe-card__button--secondary:hover {
+  background-color: #545b62;
+}
+
+/* Estilos para el contenedor principal de las tarjetas (si es necesario) */
+.recipe-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espacio entre las filas y columnas de tarjetas */
+  padding: 20px; /* Margen alrededor de la cuadrícula */
+}

@@ -21,7 +21,7 @@ export default function NewRecipePage() {
   const description = searchParams.get("description") || "";
   const ingredients = searchParams.get("ingredients")?.split(',') || [];
   const steps = searchParams.get("steps")?.split(',') || [];
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [_isLoading, setIsLoading] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string>('');
   const {
     register,

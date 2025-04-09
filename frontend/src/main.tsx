@@ -7,7 +7,6 @@ import NewRecipePage from './pages/newRecipe.tsx';
 import EditRecipePage from './pages/editRecipe.tsx';
 import Login from './pages/login.tsx';
 import { ClerkProvider } from '@clerk/clerk-react';
-import React from 'react';
 import Main from './pages/main.tsx';
 
 // Import your Publishable Key
