@@ -9,11 +9,13 @@ import uploadImageService from "../services/uploadImageService";
 export async function getAllRecipes(req: Request, res: Response, next: NextFunction) {
   try {
     const { userId } = getAuth(req);
-    const recipes: Recipe[] = await getAllRecipesService(userId || '')
+    const q = req?.query?.q as string
+    const recipes: Recipe[] = await getAllRecipesService(userId || '', q || '')
     res.status(200).json({
       success: true,
       data: recipes,
       error: null,
+      q
     });
   } catch (error) {
     next(error);
