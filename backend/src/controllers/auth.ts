@@ -3,9 +3,9 @@ import { createUserService } from "../services/authService";
 
 export async function callback(req: Request, res: Response, next: NextFunction) {
   const event = req.body;
-  if (event.type === 'email.created') {
-    const { id, to_email_address: email, first_name, last_name  } = event.data;
-
+  if (event.type === 'user.created') {
+    const { id, email_addresses, first_name, last_name } = event.data;
+    const email = email_addresses?.[0]?.email_address || null;
     try {
       await createUserService(id, email, `${first_name} ${last_name}`)
       res.status(200).send('User inserted');
