@@ -9,7 +9,8 @@ export async function callback(req: Request, res: Response, next: NextFunction) 
     const email = email_addresses?.[0]?.email_address || null;
 
     try {
-      // await createUserService(id, email_addresses, `${first_name} ${last_name}`)
+      console.log(id,email, `${first_name} ${last_name}`)
+      await createUserService(id, email, `${first_name} ${last_name}`)
       res.status(200).send('User inserted');
     } catch (error) {
       next(error);
