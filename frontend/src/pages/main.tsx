@@ -1,4 +1,3 @@
-import Header from "../componets/header";
 
 export default function Main() {
   return (
