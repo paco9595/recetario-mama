@@ -9,10 +9,11 @@ export default function Header() {
   const isPresentationPage = pathname === '/' || pathname === '/login'
   const isSecondPage = !isPresentationPage && pathname !== '/home'
 
+  const logoPath = !user ? '/' : '/home'
   return (
     <>
       <nav className="flex justify-between w-full mb-6">
-        <div className="font-black uppercase text-xl w-full cursor-pointer" onClick={() => navigate('/home')}>Bearpoint RECIPES</div>
+        <div className="font-black uppercase text-xl w-full cursor-pointer" onClick={() => navigate(logoPath)}>Bearpoint RECIPES</div>
         <div>
           {!user ? <button className="bg-transparent border border-black rounded-md px-4 py-1" onClick={() => navigate('/login')}>login</button>
             : isPresentationPage ? <button className="bg-transparent border border-black rounded-md px-4 py-1" onClick={() => navigate('/home')}>Inicio</button> : <UserButton showName={true} />}
