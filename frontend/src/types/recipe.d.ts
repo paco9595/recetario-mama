@@ -3,10 +3,26 @@ export interface Recipe {
 	id: string,
 	title: string,
 	description: string,
-	tag: string[],
+	duration_minutes: number,
+	portion: number
+	tags?: {
+		id: string,
+		name: string
+	}[],
 	isFavorite: boolean,
-	steps?: string[],
-	ingredients?: string[],
-	notes?: string,
+	steps?: {
+		id: string, 
+		step_number: string,
+		instruction: string
+	}[],
+	ingredients?: {
+		id: string,
+		name: string,
+		quantity: string
+	}[],
+	notes?: {
+		id: string,
+		note: string
+	}[],
 	image_url?: string
 }

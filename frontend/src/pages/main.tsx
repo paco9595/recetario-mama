@@ -1,15 +1,8 @@
-import { useNavigate } from "react-router";
+import Header from "../componets/header";
 
 export default function Main() {
-  const navigate = useNavigate();
   return (
     <div className="max-w-7xl mx-auto px-6 w-full grid auto-rows-auto gap-y-9">
-      <nav className="flex justify-between w-full my-6">
-        <div className="font-black uppercase text-xl w-full">Bearpoint RECIPES</div>
-        <div className="hidden md:block">
-          <button className="bg-transparent border border-black rounded-md px-4 py-1" onClick={()=> navigate('login')}>login</button>
-        </div>
-      </nav>
       <section className="grid md:grid-cols-2 grid-cols-1 w-full gap-x-4">
         <div className="my-auto">
           <h1 className="cormorant-garamond-Header">Find Top-Rated Recipes Today</h1>

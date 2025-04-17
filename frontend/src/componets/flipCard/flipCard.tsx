@@ -9,12 +9,12 @@ export default function FlipCard({ recipe, clickHandler }: { recipe: Recipe, cli
       <div className="recipe-card__content">
         <h2 className="recipe-card__title">{recipe.title}</h2>
         <div className="recipe-card__info">
-          <p>Tiempo: 30 min | Porciones: 4</p>
+          <p>Tiempo: {recipe.duration_minutes} min | Porciones: {recipe.portion}</p>
           <div>
             <h4 className="">categorias:</h4>
             <ul className="flex mt-1 ">
-              {recipe?.tag?.map((item) => (
-                <li className="mx-1 font-semibold">{`# ${item}`}</li>
+              {recipe?.tags?.map(({id,name}) => (
+                <li key={`item-tag-${id}`} className="mx-1 font-semibold">{`# ${name}`}</li>
               ))}
             </ul>
           </div>

@@ -47,14 +47,17 @@ export async function getRecipe(req: Request, res: Response, next: NextFunction)
 // Crear una nueva receta
 export async function createNewRecipe(req: Request, res: Response, next: NextFunction) {
   try {
-    const validatedData = createRecipeSchema.parse(req.body);
     const { userId } = getAuth(req);
-    let supabaseImageURL;
-    if(req.files) {
+    const { title, description, steps: stepsRaw, ingredients: ingredientsRaw, time, portions, note } = createRecipeSchema.parse(req.body);
+    const steps = stepsRaw?.split(',') || [];
+    const ingredients = ingredientsRaw?.split(',') || []
+
+    let image_url;
+    if (req.files) {
       const { file }: any = req.files
-      supabaseImageURL = await uploadImageService(file)   
+      image_url = await uploadImageService(file)
     }
-    const result = await createRecipeService({ ...validatedData, steps: validatedData.steps?.split(','), ingredients: validatedData.ingredients?.split(','), userId, image_url: supabaseImageURL })
+    const result = await createRecipeService({ title ,description, steps, ingredients, userId, image_url, time, portions, note })
     res.status(201).json({
       success: true,
       data: { id: result[0].id },

@@ -8,8 +8,9 @@ import EditRecipePage from './pages/editRecipe.tsx';
 import Login from './pages/login.tsx';
 import { ClerkProvider } from '@clerk/clerk-react';
 import Main from './pages/main.tsx';
+import AuthLayout from './layout/auth.tsx';
+import Header from './componets/header.tsx';
 
-// Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 if (!PUBLISHABLE_KEY) {
@@ -20,18 +21,23 @@ if (!PUBLISHABLE_KEY) {
 const App = () => {
   return (
 
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY} signInFallbackRedirectUrl="/home" signUpFallbackRedirectUrl='/home' >
-        <BrowserRouter>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY} signInFallbackRedirectUrl="/home" signUpFallbackRedirectUrl='/home' >
+      <BrowserRouter>
+        <div className='max-w-5xl mx-auto px-6 w-full'>
+          <Header />
           <Routes >
-            <Route path="/" element={<Main />}  />
-            <Route path="/login" element={<Login />}  />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/recipe/:id" element={<RecipePage />} />
-            <Route path="/recipe/new" element={<NewRecipePage />} />
-            <Route path="/recipe/edit/:id" element={<EditRecipePage />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route element={<AuthLayout />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/recipe/:id" element={<RecipePage />} />
+              <Route path="/recipe/new" element={<NewRecipePage />} />
+              <Route path="/recipe/edit/:id" element={<EditRecipePage />} />
+            </Route>
           </Routes>
-        </BrowserRouter>
-      </ClerkProvider>
+        </div>
+      </BrowserRouter>
+    </ClerkProvider>
   )
 
 

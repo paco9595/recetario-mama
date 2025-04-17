@@ -35,15 +35,12 @@ export default function useGetFetch<T extends Record<string, any>>(endpoint: str
 
   useEffect(() => {
     try {
-      console.log('test ', isLoaded)
       if (isLoaded) {
         debouncedGetData()
       }
     } catch (err) {
-      console.log('test 2')
       setError((err as Error).message)
     } finally {
-      console.log('test 3')
       setIsLoading(false)
     }
   }, [isLoaded, debouncedGetData])

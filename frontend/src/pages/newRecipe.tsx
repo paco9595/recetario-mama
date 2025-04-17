@@ -7,6 +7,8 @@ import { useState } from "react";
 interface Inputs {
   title: string;
   description: string;
+  portions: number;
+  time: number;
   ingredients: string | string[];
   steps: string | string[];
   file?: File;
@@ -111,11 +113,8 @@ export default function NewRecipePage() {
   }
   return (
     <div className="">
-      { <div className="absolute top-0 bottom-0 size-full bg-gray-900/80 flex justify-center items-center text-6xl">loading...</div>}
+      { _isLoading && <div className="absolute top-0 bottom-0 size-full bg-gray-900/80 flex justify-center items-center text-6xl">loading...</div>}
       <div className="max-w-5xl mx-auto px-4 md:px-6 my-10">
-        <div onClick={() => navigate('/')}>
-          Atras
-        </div>
         <h2 className="text-7xl text-center mb-10">Nueva Receta</h2>
         <form>
           <div className="my-4">
@@ -128,6 +127,18 @@ export default function NewRecipePage() {
             <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descriptcion</label>
             <textarea {...register("description", { required: true })} id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
             {errors.description && <span className="text-red-300">descripcion requerida</span>}
+          </div>
+          <div className="grid grid-cols-2 gap-x-8">
+          <div className="my-4">
+            <label htmlFor="portions" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Porciones</label>
+            <input {...register("portions", { required: true })} autoCorrect="false" type="number" id="portions" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            {errors.title && <span className="text-red-300">las Porciones son requeridas</span>}
+          </div>
+          <div className="my-4">
+            <label htmlFor="time" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duracion en minutos</label>
+            <input {...register("time", { required: true })} autoCorrect="false" type="number" id="time" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            {errors.title && <span className="text-red-300">El timepo es requerido</span>}
+          </div>
           </div>
           <IncreaseList
             label={'Ingredientes'}
