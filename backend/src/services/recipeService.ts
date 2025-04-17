@@ -140,7 +140,7 @@ export async function getIngredientsByRecipeService(recipeId: string): Promise<R
 
 
 export async function createRecipeService(recipe: Recipe): Promise<{ id: string }[]> {
-  const { title, description, steps, ingredients, userId, image_url, note, time } = recipe
+  const { title, description, steps, ingredients, userId, image_url, note, time, portions } = recipe
 
   const result = await sql`
       INSERT INTO recipes (
@@ -149,6 +149,7 @@ export async function createRecipeService(recipe: Recipe): Promise<{ id: string 
         name,
         description,
         image_url,
+        portion,
         duration_minutes,
         is_public,
         created_at,
@@ -160,6 +161,7 @@ export async function createRecipeService(recipe: Recipe): Promise<{ id: string 
         ${title},
         ${description},
         ${image_url},
+        ${portions}
         ${time},
         TRUE,
         NOW(),
