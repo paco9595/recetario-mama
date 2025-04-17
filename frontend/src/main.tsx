@@ -23,7 +23,7 @@ const App = () => {
 
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} signInFallbackRedirectUrl="/home" signUpFallbackRedirectUrl='/home' >
       <BrowserRouter>
-        <div className='max-w-5xl mx-auto px-6 w-full'>
+        <div className='max-w-5xl mx-auto px-6 w-full h-screen pt-6 flex flex-col'>
           <Header />
           <Routes >
             <Route path="/" element={<Main />} />
